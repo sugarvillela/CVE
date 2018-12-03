@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <keyutils.h>
+#include <unistd.h>     //for pid, fork
 
 int main(int argc, const char *argv[]){
     /* Old Ubuntu version doesn't have keyring enabled by default.  But I noticed proc/keys
@@ -20,7 +21,7 @@ int main(int argc, const char *argv[]){
       return 0;
     } 
     else{
-      printf("This is the child process. My pid is %d and my parent's id is %d.\n", getpid(),getppid());
+      printf("This is the child process. Pid=%d, parent pid=%d.\n", getpid(),getppid());
     } 
 
     int i = 0;
@@ -44,6 +45,6 @@ int main(int argc, const char *argv[]){
             return -1;
         }
     }
-
+    perror("end");
     return 0;
 }
