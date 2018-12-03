@@ -1,6 +1,6 @@
 /* 
     if ubuntu: install libkeyutils-dev
-    $ gcc leak.c -o leak -lkeyutils -Wall */
+    $ gcc leak.c -o leak -lkeyutils -Wall
     $ ./leak 
     $ cat /proc/keys 
 */
