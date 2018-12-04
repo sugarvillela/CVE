@@ -1,4 +1,5 @@
 /* 
+    https://perception-point.io/2016/01/14/analysis-and-exploitation-of-a-linux-kernel-vulnerability-cve-2016-0728/
     if ubuntu: install libkeyutils-dev
     $ gcc leak.c -o leak -lkeyutils -Wall
     $ ./leak 
