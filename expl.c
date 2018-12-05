@@ -17,8 +17,12 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 
+/* __attribute__ specifies a parameter that can't be described in C, something like where
+in memory to put something, or what memory boundaries to line it up to. In this case I
+think it specifies which register will contain the data (not really sure though) */
 typedef int __attribute__((regparm(3))) (* _commit_creds)(unsigned long cred);
 typedef unsigned long __attribute__((regparm(3))) (* _prepare_kernel_cred)(unsigned long cred);
+
 _commit_creds commit_creds;
 _prepare_kernel_cred prepare_kernel_cred;
 
