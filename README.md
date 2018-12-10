@@ -1,11 +1,11 @@
-# cve: A collection of other people's code pertaining to CVE-2016-0728
+# cve: A collection of code pertaining to CVE-2016-0728 (various authors)
 * Excerpts from Linux, showing the evolution and fix of the bug
 * Exploit code from Perception Point with added comments that explain what each line does.
 * A short script that uses the leak to increment usage count, useful for determining whether the bug exists on your system.
 * A version of the exploit that bypasses the syscall wrappers (for systems that don't implement the keycntl wrappers).
 * The first emergency patch from January 2016
 * The best way to duplicate this exploit is to find an affected version of a Linux build, Listed below. ISO's may contain back-ported patches, so you need to download the source code and compile it yourself.
-* Running the exploit on a modern version of Ubuntu (edited to retain the bug) gave strange results, which I tried to track with test.c.  The output of this is in keylog. It outputs when the usage is decrementing; where there is no output, the usage is incrementing.
+* Running the exploit on a modern version of Ubuntu (edited to retain the bug) gave strange results.  I wrote test.c to track it, outputting to the keylog file. It prints values only when the usage is decrementing; where there is no output, the usage is incrementing.  There is no pattern to the changing slope, which means the exploit fails on a modern version, edited or not. Instead, compile a version from this list.
 
 # Affected Versions
 * Red Hat Enterprise Linux 7
