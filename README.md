@@ -5,6 +5,7 @@
 * A version of the exploit that bypasses the syscall wrappers (for systems that don't implement the keycntl wrappers).
 * The first emergency patch from January 2016
 * The best way to duplicate this exploit is to find an affected version of a Linux build, Listed below. ISO's may contain back-ported patches, so you need to download the source code and compile it yourself.
+* Running the exploit on a modern version of Ubuntu (edited to retain the bug) gave strange results, which I tried to track with test.c.  The output of this is in keylog. It outputs when the usage is decrementing; where there is no output, the usage is incrementing.
 
 # Affected Versions
 * Red Hat Enterprise Linux 7
