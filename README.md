@@ -1,6 +1,7 @@
 # cve: A collection of other people's code pertaining to CVE-2016-0728
 * Excerpts from Linux, showing the evolution and fix of the bug
 * Exploit code from Perception Point with added comments that explain what each line does.
+* A short script that uses the leak to increment usage count, useful for determining whether the bug exists on your system.
 * A version of the exploit that bypasses the syscall wrappers (for systems that don't implement the keycntl wrappers).
 * The first emergency patch from January 2016
 * The best way to duplicate this exploit is to find an affected version of a Linux build, Listed below. ISO's may contain back-ported patches, so you need to download the source code and compile it yourself.
