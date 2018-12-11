@@ -5,8 +5,8 @@
 * A version of the exploit that bypasses the syscall wrappers (for systems that don't implement the keycntl wrappers).
 * The first emergency patch from January 2016
 * The best way to duplicate this exploit is to find an affected version of a Linux build, Listed below. ISO's may contain back-ported patches, so you need to download the source code and compile it yourself.
-* Running the exploit on a modern version of Ubuntu (edited to retain the bug) gave strange results.  I wrote test.c to track it, outputting to the keylog file. 
-* Interpreting the keylog file:  the number on the left is the iteration. The program prints values only when the usage is decrementing; where there is no output, the usage is incrementing.  Thus, anywhere there is a gap in the iteration count, you know it has been incrementing.  There is no pattern to the changing slope.  
+* Running the exploit on a modern version of Ubuntu (edited to retain the bug) gave strange results.  I wrote test.c to track it, outputting to the keylog file. The program runs independently of the exploit, using nanosleep to control sample frequency. keylog is the output from running at 500 nanosecond period for about 1/2 second.
+* Interpreting the keylog file:  The number on left is the iteration number.  It outputs a value when the slope changes. tState counts how many iterations since the slope last changed.  It is completely random and not worth studying.
 * For this test there was unpredictable output and no integer overflow, which means the exploit fails on a modern version, edited or not. Instead, compile a version from the list.
 
 # Affected Versions
