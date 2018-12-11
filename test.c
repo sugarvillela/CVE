@@ -74,49 +74,45 @@ int searchAndDisp( char uq[], int pos, FILE *outfile ){
     char buf[16];
     static unsigned int cur, last=0, 
 		max=0, min=(unsigned int)-1, 
-		cmax=0, cmin=(unsigned int)-1, 
-		count=0, pcount=0;
+		count=0, pcount=0, slope=0, lastSlope=0, tState=0;
     
 	FILE *infile;
-	if ( ( infile=fopen("/proc/keys","r") ) ) {
+	if ( ( infile=fopen("/proc/keys","r") ) ) {	//same as calling cat /proc/keys
 		count++;
-		while ( fgets( line, sizeof(line), infile ) ){
-			if ( hasStr( line, uq ) &&  getWord( pos, line, buf ) ){
+		while ( fgets( line, sizeof(line), infile ) ){//skip other keyrings; find keyring containing char uq[]
+			if ( hasStr( line, uq ) &&  getWord( pos, line, buf ) ){//get data from 3rd item, the usage (pos=2)
 				if( allNum( buf ) ){
 					cur=atoi( buf );
-					if( cur < min ){
+					slope=( cur > last )? 1:0;
+					if( cur < min ){				//track min, max over time
 						min=cur;
 					}
 					if( cur > max ){
 						max=cur;
 					}
-					if( cur < cmin ){
-						cmin=cur;
-					}
-					if( cur > cmax ){
-						cmax=cur;
-					}
-					if( cur < last ){
+					if( slope!=lastSlope ){
 						if( pcount%10==0 ){
 							printf("==============================================min=%d,\t max=%d\n", min, max );
 							if( outfile ){
 								fprintf( outfile, "==============================================min=%d,\t max=%d\n", min, max );
 							}
 						}
-						printf("%d\t last=%d,\t cur=%d,\t low=%d,\t high=%d\n", count, last, cur, cmin, cmax );
+						printf("%d\t slope=%d, tState=%d\n", count, slope, tState );
 						if( outfile ){
-							fprintf( outfile, "%d\t last=%d,\t cur=%d,\t low=%d,\t high=%d\n", count, last, cur, cmin, cmax );
+							fprintf( outfile, "%d\t slope=%d, tState=%d\n", count, slope, tState );
 						}
-						cmax=0;
-						cmin=(unsigned int)-1;
 						pcount++;
+						tState=0;
 					}
 					last=cur;
+					lastSlope=slope;
+					tState++;
 				}
 				else{
 					printf("non-numeric: %s\n", buf );
 					return 0;
 				}
+				fclose(infile);
 				return 1;
 			}
 		}
@@ -140,7 +136,7 @@ int main( int argc, char* argv[] ){
 		return 1;
 	}
 	while(1){
-		if(500<i++){return 0;}
+		if(10000<i++){return 0;}
 		if( !searchAndDisp( argv[1], 2, outfile ) ){
 			perror( "searchAndDisp returned 0" );
 		}
